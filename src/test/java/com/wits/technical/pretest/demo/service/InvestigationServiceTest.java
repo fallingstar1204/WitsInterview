@@ -2,6 +2,7 @@ package com.wits.technical.pretest.demo.service;
 
 import com.wits.technical.pretest.demo.model.InvestigationResultHolder;
 import com.wits.technical.pretest.demo.model.JaxbContextTest;
+import com.wits.technical.pretest.demo.model.QueryParam;
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Before;
@@ -35,6 +36,27 @@ public class InvestigationServiceTest {
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
         InvestigationResultHolder resultHolder = investigationService.doInvestigation();
+
+        try (StringWriter sw = new StringWriter(); InputStream is = JaxbContextTest.class.getResourceAsStream("/InvestigationResults.xml")) {
+            marshaller.marshal(resultHolder, sw);
+            String marshalStr = sw.toString();
+            String expectedStr = IOUtils.toString(is, "UTF-8");
+            Assert.assertEquals(expectedStr, marshalStr);
+        }
+    }
+
+    @Test
+    public void doInvestigationWithQueryParam() throws Exception {
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+        QueryParam queryParam =
+                QueryParam.builder()
+                        .withStudyCode("9302")
+                        .withExam("T2", "MRI", "Knee")
+                        .build();
+
+        InvestigationResultHolder resultHolder = investigationService.doInvestigation(queryParam);
 
         try (StringWriter sw = new StringWriter(); InputStream is = JaxbContextTest.class.getResourceAsStream("/InvestigationResults.xml")) {
             marshaller.marshal(resultHolder, sw);
