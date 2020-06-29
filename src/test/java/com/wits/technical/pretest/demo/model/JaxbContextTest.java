@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
@@ -39,16 +38,16 @@ public class JaxbContextTest {
         Site site101T = SiteOM.newSite(101L, "Taipei, Taiwan");
         Site site102SC = SiteOM.newSite(102L, "Santa Clara, US");
 
-        Participant participant101001M = ParticipantOM.newParticipant(101001L,Sex.M);
-        Participant participant101001F = ParticipantOM.newParticipant(101001L,Sex.F);
-        Participant participant102001M = ParticipantOM.newParticipant(102001L,Sex.M);
+        Participant participant101001M = ParticipantOM.newParticipant(101001L, Sex.M);
+        Participant participant101001F = ParticipantOM.newParticipant(101001L, Sex.F);
+        Participant participant102001M = ParticipantOM.newParticipant(102001L, Sex.M);
 
         Visit visit_t1 = VisitOM.newVisit("Baseline", "2020/Feb/24", study9302, participant101001M, site101SC);
-        Visit visit_t2 = VisitOM.newVisit("Baseline","2020/Feb/23", study9302, participant102001M, site102A);
-        Visit visit_t3 = VisitOM.newVisit("Followup1","2020/Aug/20", study9302, participant101001M, site101SC);
-        Visit visit_t4 = VisitOM.newVisit("Followup1","2020/Aug/23", study9302, participant102001M, site102A);
-        Visit visit_t5 = VisitOM.newVisit("Baseline","2020/Oct/10", study9901, participant101001F, site101T);
-        Visit visit_t6 = VisitOM.newVisit("Followup1","2020/Oct/23", study9901, participant102001M, site102SC);
+        Visit visit_t2 = VisitOM.newVisit("Baseline", "2020/Feb/23", study9302, participant102001M, site102A);
+        Visit visit_t3 = VisitOM.newVisit("Followup1", "2020/Aug/20", study9302, participant101001M, site101SC);
+        Visit visit_t4 = VisitOM.newVisit("Followup1", "2020/Aug/23", study9302, participant102001M, site102A);
+        Visit visit_t5 = VisitOM.newVisit("Baseline", "2020/Oct/10", study9901, participant101001F, site101T);
+        Visit visit_t6 = VisitOM.newVisit("Followup1", "2020/Oct/23", study9901, participant102001M, site102SC);
 
         Exam exam1 = ExamOM.newExam("MRI", "Brain", "T1");
         Exam exam2 = ExamOM.newExam("MRI", "Brain", "T2");
