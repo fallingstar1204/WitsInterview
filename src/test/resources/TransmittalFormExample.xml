@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<transmittalForms>
+    <transmittalForm>
+        <id>T1005</id>
+        <deliverDate>2020/Oct/20</deliverDate>
+        <visit>
+            <name>Baseline</name>
+            <date>2020/Oct/10</date>
+            <study>
+                <code>9901</code>
+            </study>
+            <participant>
+                <id>101001</id>
+                <sex>F</sex>
+            </participant>
+            <site>
+                <id>101</id>
+                <location>Taipei, Taiwan</location>
+            </site>
+        </visit>
+        <exams>
+            <exam>
+                <type>MRI</type>
+                <position>Brain</position>
+                <name>T1</name>
+            </exam>
+            <exam>
+                <type>MRI</type>
+                <position>Brain</position>
+                <name>T2</name>
+            </exam>
+        </exams>
+    </transmittalForm>
+</transmittalForms>
