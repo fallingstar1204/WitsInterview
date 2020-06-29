@@ -52,4 +52,8 @@ public class TransmittalForm {
     public void setExams(List<Exam> exams) {
         this.exams = exams;
     }
+
+    public static class Builder {
+
+    }
 }

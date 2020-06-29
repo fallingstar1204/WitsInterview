@@ -15,7 +15,6 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.List;
 
 @RunWith(JUnit4.class)
 public class JaxbContextTest {
@@ -31,16 +30,42 @@ public class JaxbContextTest {
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-        Study study = StudyOM.newStudy("9901");
-        Site site = SiteOM.newSite(101L, "Taipei, Taiwan");
-        Participant participant = ParticipantOM.newParticipant(101001L,Sex.F);
-        Visit visit = VisitOM.newVisit("Baseline", LocalDate.parse("2020/Oct/10", LocalDateAdapter.formatter), study, participant, site);
-        List<Exam> exams = Arrays.asList(ExamOM.newExam("MRI", "Brain", "T1"), ExamOM.newExam("MRI", "Brain", "T2"));
-        TransmittalForm newTransmittalForm = TransmittalFormOM.newTransmittalForm("T1005", LocalDate.parse("2020/Oct/20", LocalDateAdapter.formatter), visit, exams);
-        TransmittalFormHolder transmittalFormHolder = new TransmittalFormHolder();
-        transmittalFormHolder.getTransmittalForms().add(newTransmittalForm);
 
-        try (StringWriter sw = new StringWriter(); InputStream is = JaxbContextTest.class.getResourceAsStream("/TransmittalFormExample.xml")) {
+        Study study9302 = StudyOM.newStudy("9302");
+        Study study9901 = StudyOM.newStudy("9901");
+
+        Site site101SC = SiteOM.newSite(101L, "Santa Clara, US");
+        Site site102A = SiteOM.newSite(102L, "Austin, US");
+        Site site101T = SiteOM.newSite(101L, "Taipei, Taiwan");
+        Site site102SC = SiteOM.newSite(102L, "Santa Clara, US");
+
+        Participant participant101001M = ParticipantOM.newParticipant(101001L,Sex.M);
+        Participant participant101001F = ParticipantOM.newParticipant(101001L,Sex.F);
+        Participant participant102001M = ParticipantOM.newParticipant(102001L,Sex.M);
+
+        Visit visit_t1 = VisitOM.newVisit("Baseline", "2020/Feb/24", study9302, participant101001M, site101SC);
+        Visit visit_t2 = VisitOM.newVisit("Baseline","2020/Feb/23", study9302, participant102001M, site102A);
+        Visit visit_t3 = VisitOM.newVisit("Followup1","2020/Aug/20", study9302, participant101001M, site101SC);
+        Visit visit_t4 = VisitOM.newVisit("Followup1","2020/Aug/23", study9302, participant102001M, site102A);
+        Visit visit_t5 = VisitOM.newVisit("Baseline","2020/Oct/10", study9901, participant101001F, site101T);
+        Visit visit_t6 = VisitOM.newVisit("Followup1","2020/Oct/23", study9901, participant102001M, site102SC);
+
+        Exam exam1 = ExamOM.newExam("MRI", "Brain", "T1");
+        Exam exam2 = ExamOM.newExam("MRI", "Brain", "T2");
+        Exam exam3 = ExamOM.newExam("PET", "Brain", "T2");
+        Exam exam4 = ExamOM.newExam("MRI", "Knee", "T2");
+
+        TransmittalForm t1 = TransmittalFormOM.newTransmittalForm("T1001", "2020/Feb/25", visit_t1, Arrays.asList(exam1, exam2));
+        TransmittalForm t2 = TransmittalFormOM.newTransmittalForm("T1002", "2020/Feb/26", visit_t2, Arrays.asList(exam1, exam2));
+        TransmittalForm t3 = TransmittalFormOM.newTransmittalForm("T1003", "2020/Aug/29", visit_t3, Arrays.asList(exam1, exam2, exam3));
+        TransmittalForm t4 = TransmittalFormOM.newTransmittalForm("T1004", "2020/Aug/26", visit_t4, Arrays.asList(exam1, exam4));
+        TransmittalForm t5 = TransmittalFormOM.newTransmittalForm("T1005", "2020/Oct/20", visit_t5, Arrays.asList(exam1, exam2));
+        TransmittalForm t6 = TransmittalFormOM.newTransmittalForm("T1006", "2020/Oct/26", visit_t6, Arrays.asList(exam1, exam4));
+
+        TransmittalFormHolder transmittalFormHolder = new TransmittalFormHolder();
+        transmittalFormHolder.setTransmittalForms(Arrays.asList(t1, t2, t3, t4, t5, t6));
+
+        try (StringWriter sw = new StringWriter(); InputStream is = JaxbContextTest.class.getResourceAsStream("/AppendixTransmittalForms.xml")) {
             marshaller.marshal(transmittalFormHolder, sw);
             String marshalStr = sw.toString();
             String expectedStr = IOUtils.toString(is, "UTF-8");
